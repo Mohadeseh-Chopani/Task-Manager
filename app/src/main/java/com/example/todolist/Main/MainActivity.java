@@ -25,11 +25,38 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainContract.View{
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    public void showData(Data_task data_task) {
+
+    }
+
+    @Override
+    public void addData(Data_task data_task) {
+
+    }
+
+    @Override
+    public void removeData(Data_task data_task) {
+
+    }
+
+    @Override
+    public void showEmptyTask(boolean visible) {
+
+    }
+
+    @Override
+    public void updateData(Data_task data_task) {
+
     }
 }
