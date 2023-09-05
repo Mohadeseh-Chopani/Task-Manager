@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">To do list</string>
+    <string name="search_hint">search</string>
+    <string name="hint_input_task">Task</string>
+    <string name="error_empty">Box task is empty!!</string>
+    <string name="delete_task">Are you sure you want to delete this task?</string>
+    <string name="text_add">Add</string>
+    <string name="text_edit">Edit</string>
+    <string name="text_cancel">Cancel</string>
+</resources>
