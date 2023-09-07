@@ -10,34 +10,39 @@
     android:layout_height="75dp"
     android:layout_marginTop="20dp">
 
-
     <ImageView
-        android:id="@+id/btn_delete"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:id="@+id/checkedItem"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/shape_checkbox_default"
+        android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.983"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.48"
-        app:srcCompat="@drawable/icon_delete"
-        app:tint="#888686"
-        tools:ignore="MissingConstraints" />
+        android:layout_marginStart="12dp"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:buttonTint="#ef9a9a"
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
+        android:text="Task Title"
         android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkedItem"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/importanceView"
+        android:layout_width="8dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.428"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

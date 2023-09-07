@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">To do list</string>
+    <string name="app_name">Task Manager</string>
     <string name="search_hint">search</string>
     <string name="hint_input_task">Task</string>
     <string name="error_empty">Box task is empty!!</string>

@@ -69,34 +69,7 @@
                 android:layout_height="46dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="12dp"
-                android:id="@+id/btn_normal"
-                android:background="@drawable/backgrount_outline">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Normal"
-                    android:layout_marginEnd="16dp"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"/>
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
-                    android:background="@drawable/shape_normal"
-                    android:src="@drawable/baseline_done_24"
-                    android:id="@+id/img_normal"/>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="46dp"
-                android:layout_weight="1"
                 android:id="@+id/btn_low"
-                android:layout_marginEnd="12dp"
                 android:background="@drawable/backgrount_outline">
 
                 <TextView
@@ -111,9 +84,36 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/shape_normal"
+                    android:id="@+id/checked_low"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:id="@+id/btn_normal"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/backgrount_outline">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Normal"
+                    android:layout_marginEnd="16dp"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/shape_low"
-                    android:layout_marginStart="16dp"
-                    android:id="@+id/img_low"/>
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/baseline_done_24"
+                    android:id="@+id/checked_normal"/>
 
             </FrameLayout>
 
@@ -138,7 +138,7 @@
                     android:layout_gravity="center"
                     android:background="@drawable/shape_high"
                     android:layout_marginStart="16dp"
-                    android:id="@+id/img_high"/>
+                    android:id="@+id/checked_high"/>
 
             </FrameLayout>
         </LinearLayout>
@@ -155,7 +155,7 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:hint="Add a new task..."
-            android:id="@+id/edit_add_task"/>
+            android:id="@+id/edit_title"/>
 
     </FrameLayout>
 
@@ -167,10 +167,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save change"
-            android:id="@+id/save_change"
+            android:id="@+id/btn_save_change"
             android:layout_marginBottom="24dp"
             app:icon="@drawable/baseline_done_24"
-            android:backgroundTint="#ef9a9a"
+            android:backgroundTint="@color/ColorSecondPrimary"
             android:layout_gravity="bottom|center"/>
 
     </FrameLayout>
