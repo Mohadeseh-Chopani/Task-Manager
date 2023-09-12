@@ -13,12 +13,10 @@ public interface MainContract {
         void removeData(Data_task data_task);
         void showEmptyTask(boolean visible);
         void updateData(Data_task data_task);
-        void Delete();
     }
 
     interface Presenter extends BasePeresenter<View> {
         void search(String q);
         void onItemClick(Data_task data_task);
-        void deleteAll();
     }
 }

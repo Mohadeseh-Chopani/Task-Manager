@@ -15,11 +15,12 @@ import android.widget.TextView;
 import com.example.todolist.Models.Data_task;
 import com.example.todolist.Models.Database_holder;
 import com.example.todolist.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements Tasks_adapter.EventListener , MainContract.View{
+public class MainActivity extends AppCompatActivity implements Tasks_adapter.eventListener_main , MainContract.View{
 
     public static final int REQUEST_CODE=1000;
     public static final String REQUEST_KEY="data";
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.Eve
     public static final int RESULT_CODE_DELETE=1002;
     public static final int RESULT_CODE_UPDATE=1000;
     RecyclerView recyclerView;
-    View btn_add , btn_deleteAll;
+    View btn_add;
     Tasks_adapter adapter;
     MainContract.Presenter presenter;
 
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.Eve
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn_deleteAll = findViewById(R.id.btn_delete_all);
         btn_add = findViewById(R.id.btn_add);
         empty_state_img = findViewById(R.id.empty_state_img);
         empty_state_text = findViewById(R.id.empty_state_text);
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.Eve
         recyclerView.setAdapter(adapter);
 
 
+
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,12 +61,6 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.Eve
             }
         });
 
-        btn_deleteAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.deleteAll();
-            }
-        });
 
         presenter.onAttach(this);
     }
@@ -101,10 +96,6 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.Eve
         adapter.update(data_task);
     }
 
-    @Override
-    public void Delete() {
-        adapter.deleteAll();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -118,13 +109,14 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.Eve
                 data_task.setTask_title(data.getStringExtra("title"));
                 data_task.setImportance(data.getIntExtra("importance",0));
                 data_task.setId(data.getIntExtra("id",1));
+                data_task.setIs_selected(data.getBooleanExtra("selected",false));
+
 
                 if(resultCode == RESULT_CODE_ADD) {
                     adapter.add(data_task);
                     recyclerView.smoothScrollToPosition(0);
                 }
-
-                if(resultCode == RESULT_CODE_UPDATE){
+                else if(resultCode == RESULT_CODE_UPDATE){
                     adapter.update(data_task);
                 }
 
@@ -136,5 +128,21 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.Eve
     @Override
     public void onClick(Data_task data_task) {
         presenter.onItemClick(data_task);
+    }
+
+
+    // this method is called when the name task is duplicate
+
+    @Override
+    public void onLongClick(Data_task data_task) {
+        Intent intent= new Intent(MainActivity.this,com.example.todolist.Details.DetailsActivity.class);
+        intent.putExtra(REQUEST_KEY,data_task);
+        startActivityForResult(intent ,REQUEST_CODE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDetach();
     }
 }

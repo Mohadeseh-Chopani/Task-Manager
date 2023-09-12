@@ -1,14 +1,10 @@
 package com.example.todolist.Main;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,15 +16,16 @@ import com.example.todolist.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Tasks_adapter extends RecyclerView.Adapter<Tasks_adapter.Tasks_viewHolder> {
 
     List<Data_task> Tasks = new ArrayList<>();
 
-    EventListener eventListener;
+    eventListener_main eventListener_main;
 
-    public Tasks_adapter(EventListener eventListener) {
-        this.eventListener = eventListener;
+    public Tasks_adapter(eventListener_main eventListener) {
+        this.eventListener_main = eventListener;
     }
 
     public void add(Data_task task) {
@@ -42,16 +39,21 @@ public class Tasks_adapter extends RecyclerView.Adapter<Tasks_adapter.Tasks_view
         notifyDataSetChanged();
     }
 
-    public void deleteAll(){
-       Tasks.clear();
-       notifyDataSetChanged();
-    }
-
     public void update(Data_task task) {
         for (int i = 0; i < Tasks.size(); i++) {
-            if (Tasks.get(i).getId() == task.getId()) {
-                Tasks.set(i, task);
-                notifyItemChanged(i);
+            if (task.getId() == Tasks.get(i).getId()) {
+                int id = (int) task.getId();
+                Tasks.set(id, task);
+                notifyItemChanged(id);
+            }
+        }
+    }
+
+    public void delete(Data_task task) {
+        for (int i = 0; i < Tasks.size(); i++) {
+            if (task.getId() == Tasks.get(i).getId()) {
+                Tasks.remove(i);
+                notifyItemRemoved(i);
             }
         }
     }
@@ -113,13 +115,23 @@ public class Tasks_adapter extends RecyclerView.Adapter<Tasks_adapter.Tasks_view
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    eventListener.onClick(data_task);
+                    eventListener_main.onClick(data_task);
+                }
+            });
+
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    eventListener_main.onLongClick(data_task);
+                    return false;
                 }
             });
         }
     }
 
-   public interface EventListener {
+   public interface eventListener_main {
         void onClick(Data_task data_task);
+        void onLongClick(Data_task data_task);
     }
 }

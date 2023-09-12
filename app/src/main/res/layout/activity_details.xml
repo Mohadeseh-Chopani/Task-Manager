@@ -69,33 +69,7 @@
                 android:layout_height="46dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="12dp"
-                android:id="@+id/btn_low"
-                android:background="@drawable/backgrount_outline">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Low"
-                    android:layout_marginEnd="16dp"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"/>
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
-                    android:background="@drawable/shape_normal"
-                    android:id="@+id/checked_low"/>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="46dp"
-                android:layout_weight="1"
                 android:id="@+id/btn_normal"
-                android:layout_marginEnd="12dp"
                 android:background="@drawable/backgrount_outline">
 
                 <TextView
@@ -110,10 +84,36 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="22dp"
+                    android:src="@drawable/baseline_done_24"
+                    android:background="@drawable/shape_normal"
+                    android:id="@+id/checked_normal"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:id="@+id/btn_low"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/backgrount_outline">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Low"
+                    android:layout_marginEnd="16dp"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/shape_low"
                     android:layout_marginStart="20dp"
-                    android:src="@drawable/baseline_done_24"
-                    android:id="@+id/checked_normal"/>
+                    android:id="@+id/checked_low"/>
 
             </FrameLayout>
 

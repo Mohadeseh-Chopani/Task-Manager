@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName ="task_db")
+@Entity(tableName ="db")
 public class Data_task implements Parcelable {
 
     public Data_task(){
@@ -14,7 +14,7 @@ public class Data_task implements Parcelable {
     }
 
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    private long id = 0;
 
     public long getId() {
         return id;
@@ -50,11 +50,12 @@ public class Data_task implements Parcelable {
         this.importance = importance;
     }
 
-    private int importance=IMPORTANCE_LOW;
+    private int importance=IMPORTANCE_NORMAL;
 
     public static final int IMPORTANCE_HIGH = 2;
-    public static final int IMPORTANCE_NORMAL = 1;
-    public static final int IMPORTANCE_LOW = 0;
+    public static final int IMPORTANCE_NORMAL = 0;
+    public static final int IMPORTANCE_LOW = 1;
+
 
     @Override
     public int describeContents() {
@@ -66,21 +67,24 @@ public class Data_task implements Parcelable {
         dest.writeLong(this.id);
         dest.writeString(this.task_title);
         dest.writeByte(this.is_selected ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.importance);
     }
 
     public void readFromParcel(Parcel source) {
-        this.id = source.readInt();
+        this.id = source.readLong();
         this.task_title = source.readString();
         this.is_selected = source.readByte() != 0;
+        this.importance = source.readInt();
     }
 
-    public Data_task(Parcel in) {
-        this.id = in.readInt();
+    protected Data_task(Parcel in) {
+        this.id = in.readLong();
         this.task_title = in.readString();
         this.is_selected = in.readByte() != 0;
+        this.importance = in.readInt();
     }
 
-    public static final Creator<Data_task> CREATOR = new Creator<Data_task>() {
+    public static final Parcelable.Creator<Data_task> CREATOR = new Parcelable.Creator<Data_task>() {
         @Override
         public Data_task createFromParcel(Parcel source) {
             return new Data_task(source);

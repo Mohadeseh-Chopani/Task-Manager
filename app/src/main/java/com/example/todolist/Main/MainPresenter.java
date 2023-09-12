@@ -2,6 +2,7 @@ package com.example.todolist.Main;
 
 import com.example.todolist.Models.DataDao;
 import com.example.todolist.Models.Data_task;
+import com.example.todolist.Models.Database_holder;
 
 import java.util.List;
 
@@ -30,12 +31,6 @@ public class MainPresenter implements MainContract.Presenter{
             view.updateData(data_task);
     }
 
-    @Override
-    public void deleteAll() {
-        int result=dao.deleteAll();
-        if(result > 0)
-            view.Delete();
-    }
 
     @Override
     public void onAttach(MainContract.View view) {

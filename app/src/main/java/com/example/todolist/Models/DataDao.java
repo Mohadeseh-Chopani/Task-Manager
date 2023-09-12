@@ -14,7 +14,7 @@ public interface DataDao {
     @Insert
     long addTask(Data_task data_task);
 
-    @Query("SELECT * FROM task_db")
+    @Query("SELECT * FROM db")
     List<Data_task>getTaskList();
 
     @Update
@@ -23,9 +23,9 @@ public interface DataDao {
     @Delete
     int deleteTask(Data_task data_task);
 
-    @Query("DELETE FROM task_db")
-    int deleteAll();
+    @Query("SELECT * FROM db WHERE task_title == :title AND importance == :status")
+    boolean checkExist(String title, int status);
 
-    @Query("SELECT * FROM task_db WHERE task_title like '%' || :query || '%'")
+    @Query("SELECT * FROM db WHERE task_title like '%' || :query || '%'")
     List<Data_task>searchTask(String query);
 }
