@@ -14,7 +14,7 @@ public class Data_task implements Parcelable {
     }
 
     @PrimaryKey(autoGenerate = true)
-    private long id = 0;
+    private long id;
 
     public long getId() {
         return id;
@@ -39,7 +39,7 @@ public class Data_task implements Parcelable {
     }
 
     private String task_title;
-    private boolean is_selected=false;
+    private boolean is_selected;
 
 
     public int getImportance() {

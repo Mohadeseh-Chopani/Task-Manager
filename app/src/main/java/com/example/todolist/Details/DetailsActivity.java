@@ -21,11 +21,10 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
 
     private int importance=Data_task.IMPORTANCE_NORMAL;
     View btn_save;
-   public TextView title;
     EditText et_title;
 
     DetailsContract.Presenter presenter;
-    ImageView lastImportance;
+    ImageView lastImportance,btn_back;
     View btn_normal,btn_low,btn_high;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -38,43 +37,34 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
         btn_low = findViewById(R.id.btn_low);
         btn_high = findViewById(R.id.btn_high);
         et_title = findViewById(R.id.edit_title);
-        title = findViewById(R.id.title);
+        btn_back = findViewById(R.id.btn_back);
 
-
-        //these two lines are when update
 
         Data_task data;
         data = getIntent().getParcelableExtra(MainActivity.REQUEST_KEY);
-        if(data != null) {
-            title.setText(data.getTask_title());
-            importance = data.getImportance();
-        }
 
-
-        presenter=new DetailsPresenter(Database_holder.getDatabase(this).getDataDao(),data,this);
+        presenter=new DetailsPresenter(Database_holder.getDatabase(this).getDataDao(),data);
 
 
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //implement Snackbar for duplicate task
-
-
-                //different status of save button
-                if(title.getText() == "") {
+                if(!et_title.getText().toString().equals("")) {
                     presenter.saveChanges(importance, et_title.getText().toString(),v);
                 }
-                else if(title.getText() != "" && et_title.getText().toString().equals("")) {
-                    presenter.saveChanges(importance, title.getText().toString(),v);
-                }
-                else if(title.getText() != "" && !et_title.getText().toString().equals("")) {
-                    presenter.saveChanges(importance, et_title.getText().toString(),v);
-                }
-
-
             }
         });
+
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
 
         lastImportance = btn_normal.findViewById(R.id.checked_normal);
 
@@ -83,7 +73,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
             public void onClick(View v) {
                 if(importance != Data_task.IMPORTANCE_HIGH){
                     lastImportance.setImageResource(0);
-                    ImageView imageView=findViewById(R.id.checked_high);
+                    ImageView imageView=v.findViewById(R.id.checked_high);
                     imageView.setImageResource(R.drawable.baseline_done_24);
                     importance=Data_task.IMPORTANCE_HIGH;
 
@@ -111,7 +101,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
             public void onClick(View v) {
                 if(importance != Data_task.IMPORTANCE_NORMAL){
                     lastImportance.setImageResource(0);
-                    ImageView imageView=findViewById(R.id.checked_normal);
+                    ImageView imageView=v.findViewById(R.id.checked_normal);
                     imageView.setImageResource(R.drawable.baseline_done_24);
                     importance=Data_task.IMPORTANCE_NORMAL;
 
@@ -132,6 +122,18 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
     @Override
     public void showData(Data_task data_task) {
 
+        et_title.setText(data_task.getTask_title());
+        switch (data_task.getImportance()){
+            case Data_task.IMPORTANCE_HIGH:
+                findViewById(R.id.btn_high).performClick();
+                break;
+            case Data_task.IMPORTANCE_LOW:
+                findViewById(R.id.btn_low).performClick();
+                break;
+            case Data_task.IMPORTANCE_NORMAL:
+                findViewById(R.id.btn_normal).performClick();
+                break;
+        }
     }
 
     @Override
@@ -149,11 +151,6 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         setResult(resultCode,intent);
         finish();
-    }
-
-    @Override
-    public String checkTitle() {
-        return title.toString();
     }
 
 

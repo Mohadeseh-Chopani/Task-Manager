@@ -35,16 +35,15 @@ public class Tasks_adapter extends RecyclerView.Adapter<Tasks_adapter.Tasks_view
 
     @SuppressLint("NotifyDataSetChanged")
     public void add_tasks(List<Data_task> tasks) {
-        this.Tasks.addAll(tasks);
+        this.Tasks = tasks;
         notifyDataSetChanged();
     }
 
     public void update(Data_task task) {
         for (int i = 0; i < Tasks.size(); i++) {
             if (task.getId() == Tasks.get(i).getId()) {
-                int id = (int) task.getId();
-                Tasks.set(id, task);
-                notifyItemChanged(id);
+                Tasks.set(i, task);
+                notifyItemChanged(i);
             }
         }
     }
@@ -54,6 +53,7 @@ public class Tasks_adapter extends RecyclerView.Adapter<Tasks_adapter.Tasks_view
             if (task.getId() == Tasks.get(i).getId()) {
                 Tasks.remove(i);
                 notifyItemRemoved(i);
+                break;
             }
         }
     }
@@ -67,8 +67,8 @@ public class Tasks_adapter extends RecyclerView.Adapter<Tasks_adapter.Tasks_view
 
     @Override
     public void onBindViewHolder(@NonNull Tasks_viewHolder holder, int position) {
-        if (Tasks != null)
-            holder.getTask(Tasks.get(position));
+//        if (Tasks != null)
+        holder.getTask(Tasks.get(position));
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Tasks_adapter extends RecyclerView.Adapter<Tasks_adapter.Tasks_view
     public class Tasks_viewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
-        ImageView checked_item;
+        ImageView checked_item,btn_delete;
         View importance;
 
 
@@ -89,6 +89,7 @@ public class Tasks_adapter extends RecyclerView.Adapter<Tasks_adapter.Tasks_view
             title = itemView.findViewById(R.id.title);
             checked_item = itemView.findViewById(R.id.checkedItem);
             importance = itemView.findViewById(R.id.importanceView);
+            btn_delete=itemView.findViewById(R.id.btn_delete);
 
         }
 
@@ -127,11 +128,19 @@ public class Tasks_adapter extends RecyclerView.Adapter<Tasks_adapter.Tasks_view
                     return false;
                 }
             });
+
+            btn_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    eventListener_main.onDeleteClick(data_task);
+                }
+            });
         }
     }
 
    public interface eventListener_main {
         void onClick(Data_task data_task);
         void onLongClick(Data_task data_task);
+        void onDeleteClick(Data_task data_task);
     }
 }

@@ -12,15 +12,20 @@ public class MainPresenter implements MainContract.Presenter{
     List<Data_task>data;
     DataDao dao;
 
-    public MainPresenter( DataDao dao , MainContract.View view ){
+    public MainPresenter( DataDao dao ){
         this.dao = dao;
         this.data=dao.getTaskList();
-        this.view=view;
     }
 
     @Override
     public void search(String q) {
-
+        if(q != null) {
+            List<Data_task> tasks = dao.searchTask(q);
+            view.showData(tasks);
+        }else{
+            List<Data_task> tasks = dao.getTaskList();
+            view.showData(tasks);
+        }
     }
 
     @Override
@@ -34,6 +39,7 @@ public class MainPresenter implements MainContract.Presenter{
 
     @Override
     public void onAttach(MainContract.View view) {
+        this.view=view;
         if(data != null){
             view.showData(data);
             view.showEmptyTask(false);

@@ -8,14 +8,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.todolist.Details.DetailsActivity;
+import com.example.todolist.Models.DataDao;
 import com.example.todolist.Models.Data_task;
 import com.example.todolist.Models.Database_holder;
 import com.example.todolist.R;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 import java.util.Objects;
@@ -32,8 +38,10 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.eve
     Tasks_adapter adapter;
     MainContract.Presenter presenter;
 
-    ImageView empty_state_img;
-    TextView empty_state_text;
+    LinearLayout empty_state;
+    DataDao dao;
+
+    TextInputEditText et_search;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -42,10 +50,21 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.eve
         setContentView(R.layout.activity_main);
 
         btn_add = findViewById(R.id.btn_add);
-        empty_state_img = findViewById(R.id.empty_state_img);
-        empty_state_text = findViewById(R.id.empty_state_text);
+        empty_state = findViewById(R.id.empty_part);
+        et_search = findViewById(R.id.edit_search);
 
-        presenter=new MainPresenter(Database_holder.getDatabase(this).getDataDao(), this);
+
+        presenter=new MainPresenter(Database_holder.getDatabase(this).getDataDao());
+
+        dao=Database_holder.getDatabase(this).getDataDao();
+
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(MainActivity.this,com.example.todolist.Details.DetailsActivity.class),REQUEST_CODE);
+            }
+        });
+
 
         recyclerView=findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
@@ -53,11 +72,21 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.eve
         recyclerView.setAdapter(adapter);
 
 
-
-        btn_add.setOnClickListener(new View.OnClickListener() {
+        et_search.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(MainActivity.this,com.example.todolist.Details.DetailsActivity.class),REQUEST_CODE);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                presenter.search(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -70,24 +99,14 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.eve
         adapter.add_tasks(data_task);
     }
 
-    @Override
-    public void addData(Data_task data_task) {
-
-    }
-
-    @Override
-    public void removeData(Data_task data_task) {
-
-    }
 
     @Override
     public void showEmptyTask(boolean visible) {
-
-        if(!visible){
-            empty_state_img.setVisibility(View.GONE);
-            empty_state_text.setVisibility(View.GONE);
+        if(visible){
+            empty_state.setVisibility(View.VISIBLE);
         }
-
+        else
+            empty_state.setVisibility(View.GONE);
     }
 
     @Override
@@ -102,10 +121,9 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.eve
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_CODE){
-            if(resultCode == RESULT_CODE_ADD || resultCode == RESULT_CODE_UPDATE){
+            if((resultCode == RESULT_CODE_ADD || resultCode == RESULT_CODE_UPDATE || resultCode == RESULT_CODE_DELETE) && data != null){
                 Data_task data_task = new Data_task();
                 data_task.setIs_selected(false);
-                assert data != null;
                 data_task.setTask_title(data.getStringExtra("title"));
                 data_task.setImportance(data.getIntExtra("importance",0));
                 data_task.setId(data.getIntExtra("id",1));
@@ -119,8 +137,6 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.eve
                 else if(resultCode == RESULT_CODE_UPDATE){
                     adapter.update(data_task);
                 }
-
-                showEmptyTask(adapter.getItemCount() == 0);
             }
         }
     }
@@ -135,9 +151,17 @@ public class MainActivity extends AppCompatActivity implements Tasks_adapter.eve
 
     @Override
     public void onLongClick(Data_task data_task) {
-        Intent intent= new Intent(MainActivity.this,com.example.todolist.Details.DetailsActivity.class);
+        Intent intent= new Intent(this, DetailsActivity.class);
         intent.putExtra(REQUEST_KEY,data_task);
         startActivityForResult(intent ,REQUEST_CODE);
+    }
+
+    @Override
+    public void onDeleteClick(Data_task data_task) {
+        int result=dao.deleteTask(data_task);
+        if (result > 0){
+            adapter.delete(data_task);
+        }
     }
 
     @Override

@@ -9,8 +9,6 @@ public interface MainContract {
 
     interface View{
         void showData(List<Data_task> data_task);
-        void addData(Data_task data_task);
-        void removeData(Data_task data_task);
         void showEmptyTask(boolean visible);
         void updateData(Data_task data_task);
     }

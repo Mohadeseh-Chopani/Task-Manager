@@ -12,26 +12,24 @@ public class DetailsPresenter implements DetailsContract.Presenter{
     DataDao dao;
      Data_task data_task;
     DetailsContract.View view;
-    DetailsActivity view_activity ;
 
-    public DetailsPresenter(DataDao dao, Data_task data_task,   DetailsContract.View view) {
+    public DetailsPresenter(DataDao dao, Data_task data_task) {
         this.dao = dao;
         this.data_task = data_task;
-        this.view=view;
     }
 
     @Override
     public void onAttach(DetailsContract.View view) {
 
+        this.view=view;
+        if(data_task != null) {
+            view.btnDeleteVisibility(true);
+            view.showData(data_task);
+        }
     }
 
     @Override
     public void onDetach() {
-
-    }
-
-    @Override
-    public void deleteData(Data_task data_task) {
 
     }
 
@@ -43,7 +41,6 @@ public class DetailsPresenter implements DetailsContract.Presenter{
         }
         if(data_task == null){
             Data_task task = new Data_task();
-            task.setIs_selected(false);
             task.setTask_title(title);
             task.setImportance(importance);
             if(!(dao.checkExist(task.getTask_title(),task.getImportance()))){
