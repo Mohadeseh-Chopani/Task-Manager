@@ -23,7 +23,6 @@ public class DetailsPresenter implements DetailsContract.Presenter{
 
         this.view=view;
         if(data_task != null) {
-            view.btnDeleteVisibility(true);
             view.showData(data_task);
         }
     }
@@ -35,7 +34,7 @@ public class DetailsPresenter implements DetailsContract.Presenter{
 
     @Override
     public void saveChanges(int importance, String title, View v) {
-        if(title.isEmpty()){
+        if(title.equals("")){
             view.showError("Task box is empty");
             return;
         }

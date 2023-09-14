@@ -50,9 +50,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
             @Override
             public void onClick(View v) {
 
-                if(!et_title.getText().toString().equals("")) {
-                    presenter.saveChanges(importance, et_title.getText().toString(),v);
-                }
+                presenter.saveChanges(importance, et_title.getText().toString(),v);
             }
         });
 
@@ -115,11 +113,6 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
     }
 
     @Override
-    public void btnDeleteVisibility(boolean visible) {
-
-    }
-
-    @Override
     public void showData(Data_task data_task) {
 
         et_title.setText(data_task.getTask_title());
@@ -138,7 +131,14 @@ public class DetailsActivity extends AppCompatActivity implements DetailsContrac
 
     @Override
     public void showError(String message) {
-
+        Snackbar snackbar= Snackbar.make(findViewById(R.id.root_details),message,Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("OK", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
     }
 
     @Override
